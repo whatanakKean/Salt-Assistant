@@ -6,23 +6,17 @@ Salt Assistant converts natural-language infrastructure requests into validated 
 
 ```mermaid
 flowchart TD
-	A[Operator CLI\nsalt-assistant PROMPT] --> B[Configuration\n.env and environment]
-	B --> C[Live Salt Context\ntarget, minions, OS facts]
-	C --> D[OpenAI-compatible LLM\nstructured JSON response]
-	A --> D
-	D --> E[State Renderer\nYAML Salt SLS]
-	E --> F[Deterministic Validation\nYAML, modules, secrets, policy]
-	F -->|blocked| X[Audit record\nno execution]
-	F -->|passed| G[Salt test mode\nreal change preview]
-	G -->|failed| X
-	G -->|passed| H[Human approval\nexact state hash]
-	H -->|rejected| X
-	H -->|approved| I[Salt apply\nexplicit execution]
-	I --> X[Audit record and result]
-	E --> J[salt/states/*.sls]
+	A[Operator Request] --> B[Salt Assistant]
+	B --> C[Live Salt Context]
+	B --> D[LLM Generation]
+	C --> D
+	D --> E[Validation and Salt Preview]
+	E -->|approved| F[Salt Execution]
+	E -->|blocked or rejected| G[Audit Log]
+	F --> G
 ```
 
-The LLM proposes structured state data, but deterministic validation and Salt test mode are authoritative. Execution cannot proceed without a successful preview and hash-bound operator approval.
+Salt Assistant combines live infrastructure context with LLM-generated Salt states. Validation, preview, approval, execution, and auditing form the safety boundary.
 
 ## Status
 
