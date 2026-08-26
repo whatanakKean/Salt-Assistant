@@ -1,0 +1,12 @@
+master: 127.0.0.1
+master_port: 4506
+id: salt-assistant-minion
+user: root
+root_dir: /workspaces/Salt-Assistant/salt/runtime
+pki_dir: /workspaces/Salt-Assistant/salt/runtime/minion-pki
+cachedir: /workspaces/Salt-Assistant/salt/runtime/cache/minion
+sock_dir: /workspaces/Salt-Assistant/salt/runtime/sockets
+pidfile: /workspaces/Salt-Assistant/salt/runtime/minion.pid
+log_file: /workspaces/Salt-Assistant/logs/salt-minion.log
+log_level: info
+file_client: remote

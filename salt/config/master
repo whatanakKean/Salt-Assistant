@@ -1,0 +1,17 @@
+interface: 127.0.0.1
+publish_port: 4505
+ret_port: 4506
+user: codespace
+root_dir: /workspaces/Salt-Assistant/salt/runtime
+worker_threads: 2
+auto_accept: true
+pki_dir: /workspaces/Salt-Assistant/salt/runtime/master-pki
+cachedir: /workspaces/Salt-Assistant/salt/runtime/cache/master
+queue_dir: /workspaces/Salt-Assistant/salt/runtime/cache/master/queues
+sock_dir: /workspaces/Salt-Assistant/salt/runtime/sockets
+pidfile: /workspaces/Salt-Assistant/salt/runtime/master.pid
+log_file: /workspaces/Salt-Assistant/logs/salt-master.log
+log_level: info
+file_roots:
+  base:
+    - /workspaces/Salt-Assistant/salt

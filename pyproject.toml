@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "salt-assistant"
+version = "0.1.0"
+description = "Context-aware SaltStack assistance with verifiable safety gates"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+	"PyYAML>=6.0.3",
+	"salt>=3008,<3009",
+]
+
+[project.scripts]
+salt-assistant = "salt_assistant.main:main"
+sa = "salt_assistant.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
