@@ -2,6 +2,18 @@
 
 Salt Assistant converts natural-language infrastructure requests into validated SaltStack states. It is an operator-assistance tool: it gathers live Salt context, asks an OpenAI-compatible LLM for structured state data, validates the result, runs Salt test mode, shows the proposed changes, and records an audit event.
 
+## Project Summary
+
+Salt Assistant converts natural-language infrastructure requests into safe, validated SaltStack automation through a command-line interface.
+
+### Five Key Implementations
+
+1. CLI commands with `salt-assistant` and `sa`.
+2. Live Salt context and minion discovery.
+3. LLM-generated Salt state files.
+4. YAML, Jinja, module, and security validation.
+5. Salt preview and hash-based human approval before execution.
+
 ## Architecture
 
 ```mermaid
@@ -77,6 +89,13 @@ The inventory models device identity, vendor, platform, role, management address
 
 ## Usage
 
+The CLI accepts a natural-language request and optional Salt target:
+
+```bash
+salt-assistant [OPTIONS] "REQUEST"
+sa [OPTIONS] "REQUEST"
+```
+
 ```bash
 # Generate, validate, and preview a state
 salt-assistant "install nginx" --target 'web*'
@@ -91,7 +110,7 @@ salt-assistant "restart nginx" --json
 salt-assistant "install nginx" --execute
 ```
 
-Options include `--target/-t`, `--output/-o`, `--dry-run/-n`, `--execute/-e`, `--json`, `--verbose/-V`, and `--audit-log`. Preview is the default. Empty targets, excessive target sizes, invalid YAML, unsupported modules, secrets, dangerous commands, and failed Salt test mode are blocked.
+Key options are `--target/-t` for Salt targeting, `--output/-o` for saving SLS, `--dry-run/-n` for preview mode, `--json` for automation, and `--execute/-e` for approved changes. The `sa` command is an alias. Preview is the default; execution requires successful validation, Salt test mode, and exact state-hash confirmation.
 
 ## Salt layout
 
