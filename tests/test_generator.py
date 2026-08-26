@@ -38,6 +38,15 @@ def test_multi_module_state_is_split_for_salt():
     assert "pkg.installed: []" in state
 
 
+def test_requisite_strings_are_normalized_for_salt():
+    class RequisiteLLM:
+        def complete(self, system_prompt, user_prompt):
+            return '{"states": {"nginx": {"pkg.installed": []}, "service": {"service.running": {"require": ["pkg: nginx"]}}}, "assumptions": []}'
+
+    state, _ = Generator(RequisiteLLM()).generate("install nginx and start the service", ContextProvider(FakeSalt()).collect("*"))
+    assert "- pkg: nginx" in state
+
+
 def test_invalid_llm_response_is_blocked():
     class InvalidLLM:
         def complete(self, system_prompt, user_prompt):

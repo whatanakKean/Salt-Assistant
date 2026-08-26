@@ -6,6 +6,11 @@ def test_valid_state_passes():
     assert result.passed
 
 
+def test_package_refresh_state_is_allowed():
+    result = validate("refresh:\n  pkg.uptodate:\n    - refresh: true\n", "update package metadata")
+    assert result.passed
+
+
 def test_dangerous_module_is_blocked():
     result = validate("change:\n  cmd.run:\n    - name: rm -rf /\n", "remove files")
     assert not result.passed

@@ -6,7 +6,7 @@ import yaml
 from .models import ValidationResult
 
 
-ALLOWED_MODULES = {"pkg.installed", "service.running", "service.dead", "file.managed", "file.replace"}
+ALLOWED_MODULES = {"pkg.installed", "pkg.uptodate", "service.running", "service.dead", "file.managed", "file.replace"}
 
 
 def validate(state: str, prompt: str) -> ValidationResult:

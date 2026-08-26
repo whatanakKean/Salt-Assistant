@@ -56,6 +56,25 @@ SALT_FILE_ROOT=/srv/salt
 
 The LLM receives only the operator request, resolved minion IDs, and operating-system facts. It does not receive the repository, existing state files, templates, Pillar, Salt keys, logs, API keys, or full grains. The model returns structured Salt source data; deterministic validation and Salt test mode remain authoritative.
 
+## Network automation lab
+
+The repository includes a small YAML inventory and Jinja configuration workflow:
+
+```text
+salt/inventory/devices.yml
+	|
+	v
+salt/templates/router_config.jinja
+	|
+	v
+salt/states/network_config.sls
+	|
+	v
+Salt test mode and approval
+```
+
+The inventory models device identity, vendor, platform, role, management address, and interfaces. The template renders hostname and interface configuration, while `network_config.sls` applies it with Salt's `file.managed` and `template: jinja`. Rendering uses strict undefined-variable handling, so incomplete device data fails rather than producing partial configuration.
+
 ## Usage
 
 ```bash
@@ -79,8 +98,9 @@ Options include `--target/-t`, `--output/-o`, `--dry-run/-n`, `--execute/-e`, `-
 ```text
 salt/
 ├── config/       # Workspace master and minion configuration
+├── inventory/     # YAML network device inventory
 ├── states/       # Generated and maintained .sls files
-├── templates/    # Jinja/template assets
+├── templates/    # Jinja template assets
 ├── pillar/       # Pillar data
 └── runtime/      # Local keys, cache, sockets; ignored by Git
 logs/             # Audit and Salt logs; ignored by Git

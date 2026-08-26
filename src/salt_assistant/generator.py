@@ -54,5 +54,30 @@ class Generator:
                 normalized_id = state_id if state_id not in normalized else f"{state_id}_{module.split('.', 1)[0]}"
                 if isinstance(arguments, dict):
                     arguments = [] if not arguments else [{key: value} for key, value in arguments.items()]
+                arguments = Generator._normalize_arguments(arguments)
                 normalized[normalized_id] = {module: arguments}
         return normalized
+
+    @staticmethod
+    def _normalize_arguments(arguments):
+        if not isinstance(arguments, list):
+            return arguments
+        normalized = []
+        for argument in arguments:
+            if isinstance(argument, dict):
+                normalized.append({
+                    key: [Generator._normalize_requisites(item) for item in value]
+                    if key in {"require", "watch", "onchanges", "onfail"} and isinstance(value, list)
+                    else value
+                    for key, value in argument.items()
+                })
+            else:
+                normalized.append(argument)
+        return normalized
+
+    @staticmethod
+    def _normalize_requisites(item):
+        if isinstance(item, str) and ":" in item:
+            requisite_type, requisite_id = item.split(":", 1)
+            return {requisite_type.strip().strip("'\"\r\n"): requisite_id.strip().strip("'\"")}
+        return item
